@@ -20,9 +20,6 @@
 
         </div>
     </div>
-    <p id="loading-holder" class="placeholder" ng-class="{hidden:isLoaded}">
-        <img src="img/loading-spin.svg"/>
-    </p>
 
     <div class="list-filter">
         <div class="filter">
@@ -36,6 +33,9 @@
             </ons-button>
         </div>
     </div>
+    <p id="loading-holder" class="placeholder" ng-class="{hidden:isLoaded}">
+        <img src="img/loading-spin.svg"/>
+    </p>
 
     <ons-list>
         <ons-list-item ng-repeat="movieItem in movieItems"

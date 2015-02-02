@@ -1,13 +1,54 @@
 /**
  * Created by dinhquangtrung on 1/22/15.
  */
+function mapXML(badJson) {
+    var movies = [];
+    for (var i = 0; i < badJson.movies.movie.length; i++) {
+        var obj = badJson.movies.movie[i];
+        var movie = {
+            name                :    obj.name            && obj.name.__cnt            == undefined ? obj.name : "",
+            description         :    obj.description     && obj.description.__cnt     == undefined ? obj.description : "",
+            poster              :    obj.poster          && obj.poster.__cnt          == undefined ? obj.poster : "",
+            trailer             :    obj.trailer         && obj.trailer.__cnt         == undefined ? obj.trailer : "",
+            show_date           :    obj.show_date       && obj.show_date.__cnt       == undefined ? obj.show_date : "",
+            length              :    obj.length          && obj.length.__cnt          == undefined ? obj.length : "",
+            genre               :    obj.genre           && obj.genre.__cnt           == undefined ? obj.genre : "",
+            director            :    obj.director        && obj.director.__cnt        == undefined ? obj.director : "",
+            actor               :    obj.actor           && obj.actor.__cnt           == undefined ? obj.actor : "",
+            age_restriction     :    obj.age_restriction && obj.age_restriction.__cnt == undefined ? obj.age_restriction : "",
+            audio_type          :    obj.audio_type      && obj.audio_type.__cnt      == undefined ? obj.audio_type : "",
+            video_type          :    obj.video_type      && obj.video_type.__cnt      == undefined ? obj.video_type : "",
+            sessions: []
+        };
+
+        for (var j = 0; j < obj.sessions.session.length; j++) {
+            var obj2 = obj.sessions.session[j];
+            var session = {
+                show_time: obj2.show_time.__cnt == undefined ? obj2.show_time : "",
+                theater: {
+                    cinema:         obj2.theater.cinema      && obj2.theater.cinema.__cnt       == undefined ? obj2.theater.cinema : "",
+                    name:           obj2.theater.name        && obj2.theater.name.__cnt         == undefined ? obj2.theater.name : "",
+                    description:    obj2.theater.description && obj2.theater.description.__cnt  == undefined ? obj2.theater.description : "",
+                    city:           obj2.theater.city        && obj2.theater.city.__cnt         == undefined ? obj2.theater.city : "",
+                    address:        obj2.theater.address     && obj2.theater.address.__cnt      == undefined ? obj2.theater.address : "",
+                    map_link:       obj2.theater.map_link    && obj2.theater.map_link.__cnt     == undefined ? obj2.theater.map_link : "",
+                    image:          obj2.theater.image       && obj2.theater.image.__cnt        == undefined ? obj2.theater.image : ""
+                }
+            };
+            movie.sessions.push(session);
+        }
+        movies.push(movie);
+    }
+    return movies;
+}
 angular.module('app').service('DataService', function($q, $http) {
     var self = this;
-    var API_SOURCE = 'fake-api/data.json';
     var CITY_KEY = 'movie-showtimes-city';
+    var API_SOURCE = 'http://jbossews-trungdq88.rhcloud.com/API/getMovies?city=' + localStorage[CITY_KEY] || "";
     var pData = $http.get(API_SOURCE)
             .then(function(payload) {
-                return payload.data;
+                var result = x2js.xml_str2json(payload.data);
+                return mapXML(result);
             });
     this.getMovies = function () {
         return pData;
