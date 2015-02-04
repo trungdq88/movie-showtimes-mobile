@@ -3,8 +3,8 @@
  */
 function mapXML(badJson) {
     var movies = [];
-    for (var i = 0; i < badJson.movies.movie.length; i++) {
-        var obj = badJson.movies.movie[i];
+    for (var i = 0; i < badJson.movies.movie_asArray.length; i++) {
+        var obj = badJson.movies.movie_asArray[i];
         var movie = {
             name                :    obj.name            && obj.name.__cnt            == undefined ? obj.name : "",
             description         :    obj.description     && obj.description.__cnt     == undefined ? obj.description : "",
@@ -21,8 +21,8 @@ function mapXML(badJson) {
             sessions: []
         };
 
-        for (var j = 0; j < obj.sessions.session.length; j++) {
-            var obj2 = obj.sessions.session[j];
+        for (var j = 0; j < obj.sessions.session_asArray.length; j++) {
+            var obj2 = obj.sessions.session_asArray[j];
             var session = {
                 show_time: obj2.show_time.__cnt == undefined ? obj2.show_time : "",
                 theater: {
