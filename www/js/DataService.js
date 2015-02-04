@@ -44,8 +44,10 @@ function mapXML(badJson) {
 angular.module('app').service('DataService', function($q, $http) {
     var self = this;
     var CITY_KEY = 'movie-showtimes-city';
-    var API_SOURCE = 'http://jbossews-trungdq88.rhcloud.com/API/getMovies?city=' + localStorage[CITY_KEY] || "";
-    var pData = $http.get(API_SOURCE)
+    var API_SOURCE = 'http://jbossews-trungdq88.rhcloud.com/API/';
+    var API_GET_CITIES = API_SOURCE + 'getCities';
+    var API_GET_MOVIES = API_SOURCE + 'getMovies?city=' + localStorage[CITY_KEY] || "";
+    var pData = $http.get(API_GET_MOVIES)
             .then(function(payload) {
                 var result = x2js.xml_str2json(payload.data);
                 return mapXML(result);
@@ -97,15 +99,11 @@ angular.module('app').service('DataService', function($q, $http) {
         })
     };
     this.getCities = function () {
-        return $q(function (resolve, reject) {
-            resolve([
-                'Hồ Chí Minh',
-                'Hà Nội',
-                'Hải Phòng',
-                'Đà Nẵng',
-                'Thừa Thiên Huế'
-            ]);
-        });
+        return $http.get(API_GET_CITIES)
+            .then(function(payload) {
+                var result = x2js.xml_str2json(payload.data);
+                return result.cities.city;
+            });
     };
     this.getCinemas = function () {
         return this.getMovies().then(function (movies) {
