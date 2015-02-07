@@ -102,7 +102,7 @@ angular.module('app').service('DataService', function($q, $http) {
         return $http.get(API_GET_CITIES)
             .then(function(payload) {
                 var result = x2js.xml_str2json(payload.data);
-                return result.cities.city;
+                return result.cities.city_asArray;
             });
     };
     this.getCinemas = function () {
