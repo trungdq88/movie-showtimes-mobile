@@ -21,21 +21,23 @@ function mapXML(badJson) {
             sessions: []
         };
 
-        for (var j = 0; j < obj.sessions.session_asArray.length; j++) {
-            var obj2 = obj.sessions.session_asArray[j];
-            var session = {
-                show_time: obj2.show_time.__cnt == undefined ? obj2.show_time : "",
-                theater: {
-                    cinema:         obj2.theater.cinema      && obj2.theater.cinema.__cnt       == undefined ? obj2.theater.cinema : "",
-                    name:           obj2.theater.name        && obj2.theater.name.__cnt         == undefined ? obj2.theater.name : "",
-                    description:    obj2.theater.description && obj2.theater.description.__cnt  == undefined ? obj2.theater.description : "",
-                    city:           obj2.theater.city        && obj2.theater.city.__cnt         == undefined ? obj2.theater.city : "",
-                    address:        obj2.theater.address     && obj2.theater.address.__cnt      == undefined ? obj2.theater.address : "",
-                    map_link:       obj2.theater.map_link    && obj2.theater.map_link.__cnt     == undefined ? obj2.theater.map_link : "",
-                    image:          obj2.theater.image       && obj2.theater.image.__cnt        == undefined ? obj2.theater.image : ""
-                }
-            };
-            movie.sessions.push(session);
+        if (!(obj.sessions.__cnt == 0)) {
+            for (var j = 0; j < obj.sessions.session_asArray.length; j++) {
+                var obj2 = obj.sessions.session_asArray[j];
+                var session = {
+                    show_time: obj2.show_time.__cnt == undefined ? obj2.show_time : "",
+                    theater: {
+                        cinema: obj2.theater.cinema && obj2.theater.cinema.__cnt == undefined ? obj2.theater.cinema : "",
+                        name: obj2.theater.name && obj2.theater.name.__cnt == undefined ? obj2.theater.name : "",
+                        description: obj2.theater.description && obj2.theater.description.__cnt == undefined ? obj2.theater.description : "",
+                        city: obj2.theater.city && obj2.theater.city.__cnt == undefined ? obj2.theater.city : "",
+                        address: obj2.theater.address && obj2.theater.address.__cnt == undefined ? obj2.theater.address : "",
+                        map_link: obj2.theater.map_link && obj2.theater.map_link.__cnt == undefined ? obj2.theater.map_link : "",
+                        image: obj2.theater.image && obj2.theater.image.__cnt == undefined ? obj2.theater.image : ""
+                    }
+                };
+                movie.sessions.push(session);
+            }
         }
         movies.push(movie);
     }
